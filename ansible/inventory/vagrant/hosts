@@ -1,0 +1,7 @@
+# -*- mode: yaml -*-
+all:
+  children:
+    flask_app:
+      hosts:
+        flask_app.server.local:
+          ansible_host: 10.0.0.10

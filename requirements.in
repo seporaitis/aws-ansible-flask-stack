@@ -1,2 +1,4 @@
 ansible
+botocore
+boto3
 pip-tools

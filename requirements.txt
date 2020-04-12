@@ -5,12 +5,19 @@
 #    pip-compile
 #
 ansible==2.9.6            # via -r requirements.in
+boto3==1.12.39            # via -r requirements.in
+botocore==1.15.39         # via -r requirements.in, boto3, s3transfer
 cffi==1.14.0              # via cryptography
 click==7.1.1              # via pip-tools
 cryptography==2.9         # via ansible
+docutils==0.15.2          # via botocore
 jinja2==2.11.1            # via ansible
+jmespath==0.9.5           # via boto3, botocore
 markupsafe==1.1.1         # via jinja2
 pip-tools==4.5.1          # via -r requirements.in
 pycparser==2.20           # via cffi
+python-dateutil==2.8.1    # via botocore
 pyyaml==5.3.1             # via ansible
-six==1.14.0               # via cryptography, pip-tools
+s3transfer==0.3.3         # via boto3
+six==1.14.0               # via cryptography, pip-tools, python-dateutil
+urllib3==1.25.8           # via botocore

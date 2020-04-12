@@ -1,0 +1,9 @@
+- name: install dependencies
+  apt:
+    name:
+    - python3-venv
+    update_cache: true
+
+- name: test
+  debug:
+    msg: "Testing."

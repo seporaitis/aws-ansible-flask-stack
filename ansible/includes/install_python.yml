@@ -1,0 +1,4 @@
+- name: install default python
+  raw: |
+    test -e /usr/bin/python || apt-get -y install python3
+    update-alternatives --install /usr/bin/python python /usr/bin/python3 10

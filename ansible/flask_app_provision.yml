@@ -1,0 +1,10 @@
+- hosts: flask_app
+  become: true
+  gather_facts: false
+  tasks:
+  - include_tasks: includes/install_python.yml
+
+- hosts: flask_app
+  become: true
+  roles:
+  - app.flask_app
