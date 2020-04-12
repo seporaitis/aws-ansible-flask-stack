@@ -1,0 +1,12 @@
+#!/usr/bin/env ansible-playbook
+- hosts: localhost
+  connection: local
+  vars:
+    aws_region: us-east
+  tasks:
+  - name: alarms stack
+    cloudformation:
+      region: "{{ aws_region }}"
+      stack_name: Frontend-Alarms
+      template: ../cloudformation/Frontend-Alarms.yml
+      termination_protection: true

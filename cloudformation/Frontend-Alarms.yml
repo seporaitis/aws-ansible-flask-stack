@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Resources:
+
+  AlarmTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: Frontend-AlarmTopic
+      Subscription:
+      - Endpoint: alerts@example.com
+        Protocol: email
+      Tags:
+      - Key: Name
+        Value: Frontend
+
+  ErrorMetricFilter:
+    Type: AWS::Logs::MetricFilter
+    Properties:
+      LogGroupName: /Frontend/syslog
+      FilterPattern: "ERROR"
+      MetricTransformations:
+      - MetricNamespace: Frontend
+        MetricName: ErrorCount
+        MetricValue: '1'
+
+  ErrorMetricAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: Frontend-Error
+      AlarmDescription: >-
+        A likely error was noticed in frontend syslog output.
+      AlarmActions:
+      - !GetAtt AlarmTopic.Arn
+      MetricName: ErrorCount
+      Namespace: Frontend
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      EvaluationPeriods: 1
+      Period: 60
+      Statistic: Sum
+      Threshold: 1
+      TreatMissingData: notBreaching
