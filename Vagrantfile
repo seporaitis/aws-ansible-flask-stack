@@ -66,9 +66,9 @@ Vagrant.configure("2") do |config|
   config.vm.provision 'ansible' do |ansible|
     ansible.inventory_path = File.dirname(__FILE__) + "/ansible/inventory/vagrant"
     ansible.playbook_command = File.dirname(__FILE__) + "/ansible/scripts/run_ansible.py"
-    ansible.playbook = File.dirname(__FILE__) + "/ansible/flask_app_provision.yml"
+    ansible.playbook = File.dirname(__FILE__) + "/ansible/frontend_provision.yml"
     ansible.compatibility_mode = '2.0'
     ansible.become = true
-    ansible.limit = "flask_app"
+    ansible.limit = "frontend"
   end
 end

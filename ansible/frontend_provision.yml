@@ -1,10 +1,10 @@
-- hosts: flask_app
+- hosts: frontend
   become: true
   gather_facts: false
   tasks:
   - include_tasks: includes/install_python.yml
 
-- hosts: flask_app
+- hosts: frontend
   become: true
   vars_files:
   - vars/flask_app.yml
