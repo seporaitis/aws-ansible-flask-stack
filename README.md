@@ -12,7 +12,10 @@ As it says on the tin.
 
 ```
 pip install requirements.txt
+vagrant up --provision
 ```
+
+Open http://10.0.0.10:5000/ - should show "Hello, world!"
 
 ## Run Flask App Locally
 

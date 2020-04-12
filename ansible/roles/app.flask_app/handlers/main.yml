@@ -1,0 +1,9 @@
+- name: restart flask_app
+  service:
+    name: flask_app.service
+    state: restarted
+    enabled: true
+
+- name: systemd daemon-reload
+  systemd:
+    daemon_reload: true

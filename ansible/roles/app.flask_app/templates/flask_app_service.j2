@@ -1,0 +1,15 @@
+[Unit]
+Description=flask_app
+
+[Service]
+Group=flask_app
+User=flask_app
+WorkingDirectory=/opt/flask_app/runtime
+ExecStart=/opt/flask_app/venv/bin/python -m flask run --host 0.0.0.0 --no-reload --no-debugger
+Restart=no
+
+[Install]
+WantedBy=multi-user.target
+
+
+# test

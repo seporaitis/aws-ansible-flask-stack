@@ -4,6 +4,62 @@
     - python3-venv
     update_cache: true
 
-- name: test
-  debug:
-    msg: "Testing."
+- name: create user
+  user:
+    name: flask_app
+    state: present
+    shell: /bin/false
+
+- name: create deployment directory
+  file:
+    path: /opt/flask_app
+    state: directory
+    owner: flask_app
+    group: flask_app
+  notify:
+  - restart flask_app
+
+- name: deploy code
+  synchronize:
+    src: '{{ playbook_dir }}/../src/flask-app/'
+    dest: /opt/flask_app/runtime
+    use_ssh_args: true
+    rsync_opts:
+    - --exclude=__pycache__
+    - --exclude=*.pyc
+    - --exclude=.git
+    - --chown=flask_app:flask_app
+    - --copy-links
+  become: true
+  become_user: flask_app
+  notify:
+  - restart flask_app
+
+- name: check virtualenv exists
+  stat:
+    path: /opt/flask_app/venv
+  register: virtualenv_check
+
+- name: create virtualenv
+  command: python3 -m venv /opt/flask_app/venv
+  become: true
+  become_user: flask_app
+  when: not virtualenv_check.stat.exists
+
+- name: install dependencies
+  command: /opt/flask_app/venv/bin/pip install -r /opt/flask_app/runtime/requirements.txt
+  become: true
+  become_user: flask_app
+  notify:
+  - restart flask_app
+
+- name: deploy service file
+  template:
+    src: flask_app_service.j2
+    dest: /etc/systemd/system/flask_app.service
+  notify:
+  - systemd daemon-reload
+  - restart flask_app
+
+- name: verify services
+  command: systemd-analyze verify flask_app.service
