@@ -63,3 +63,6 @@
 
 - name: verify services
   command: systemd-analyze verify flask_app.service
+
+- set_fact:
+    app_flask_app_imported: true

@@ -1,0 +1,21 @@
+{# NOTE: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Agent-Configuration-File-Details.html #}
+{
+  "agent": {
+    "debug": true
+  }
+  {% if cloudwatch_agent_metrics_collected %}
+  ,"metrics": {
+    "namespace": "{{ cloudwatch_agent_metrics_namespace }}",
+    "metrics_collected": {{ cloudwatch_agent_metrics_collected|to_json }}
+  }
+  {% endif %}
+  {% if cloudwatch_agent_logs_collected %}
+  ,"logs": {
+    "logs_collected": {
+      "files": {
+        "collect_list": {{ cloudwatch_agent_logs_collected|to_json }}
+      }
+    }
+  }
+  {% endif %}
+}

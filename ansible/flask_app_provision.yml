@@ -6,5 +6,7 @@
 
 - hosts: flask_app
   become: true
+  vars_files:
+  - vars/flask_app.yml
   roles:
-  - app.flask_app
+  - machine.frontend

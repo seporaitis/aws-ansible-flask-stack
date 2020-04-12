@@ -1,0 +1,54 @@
+# Follows the install instructions: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/install-CloudWatch-Agent-commandline-fleet.html
+- name: create user
+  user:
+    name: cwagent
+    state: present
+    shell: /bin/false
+
+- name: download package and signature
+  get_url:
+    url: "{{ item }}"
+    dest: "/home/cwagent/{{ item|basename }}"
+  become: true
+  become_user: cwagent
+  loop:
+  - "{{ cloudwatch_agent_download_url }}"
+  - "{{ cloudwatch_agent_signature_url }}"
+
+- name: check if installed
+  stat:
+    path: /opt/aws/amazon-cloudwatch-agent
+  register: cwagent_check
+
+- name: install cloudwatch
+  apt:
+    deb: "/home/cwagent/{{ cloudwatch_agent_download_url|basename }}"
+  when: not cwagent_check.stat.exists
+  notify:
+  - restart cloudwatch-agent
+
+- name: deploy common-config.toml
+  template:
+    src: common-config_toml.j2
+    dest: /opt/aws/amazon-cloudwatch-agent/etc/common-config.toml
+  notify:
+  - restart cloudwatch-agent
+
+- name: deploy credentials
+  template:
+    src: credentials.j2
+    dest: /home/cwagent/credentials
+  become: true
+  become_user: cwagent
+  notify:
+  - restart cloudwatch-agent
+
+- name: deploy configuration
+  template:
+    src: amazon-cloudwatch-agent_json.j2
+    dest: /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
+  notify:
+  - restart cloudwatch-agent
+
+- set_fact:
+    service_cloudwatch_agent_imported: true

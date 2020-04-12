@@ -1,0 +1,3 @@
+# NOTE: Use ansible-vault to encrypt these in a real project.
+cloudwatch_agent_access_key_id: "EXAMPLEKEY"
+cloudwatch_agent_secret_access_key: "EXAMPLESECRET"

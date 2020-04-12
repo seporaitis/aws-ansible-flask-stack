@@ -1,0 +1,15 @@
+- set_fact:
+    cloudwatch_agent_metrics_namespace: 'Frontend'
+    # NOTE: See the following link for the format of the individual items.
+    # https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Agent-Configuration-File-Details.html#CloudWatch-Agent-Configuration-File-Logssection
+    cloudwatch_agent_logs_collected:
+    - file_path: /var/log/syslog
+      log_group_name: '/Frontend/syslog'
+      log_stream_name: '{instance_id}'
+      timezone: UTC
+
+- import_role:
+    name: service.cloudwatch-agent
+
+- import_role:
+    name: app.flask_app

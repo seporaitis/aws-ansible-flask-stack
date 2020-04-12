@@ -1,0 +1,11 @@
+# Source: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/install-CloudWatch-Agent-commandline-fleet.html
+cloudwatch_agent_download_url: https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb
+cloudwatch_agent_signature_url: https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb.sig
+cloudwatch_agent_credentials_profile: "AmazonCloudWatchAgent"
+cloudwatch_agent_region_name: us-east-1
+cloudwatch_agent_logs_collected: {}
+cloudwatch_agent_metrics_collected: {}
+# NOTE(JS): set these somewhere in your top level vars file,
+# and don't forget to encrypt them with ansible-vault.
+cloudwatch_agent_access_key_id: ""
+cloudwatch_agent_secret_access_key: ""
